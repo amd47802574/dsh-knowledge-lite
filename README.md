@@ -51,6 +51,16 @@ pnpm install          # 依赖用 link: 协议，改动即时生效，无需重�
 | `lib/writeback.js` | 把对话抽取为笔记候选 |
 | `lib/config.js` | 笔记根目录等路径配置 |
 | `lib/writeback-prompts.js` | 抽取提示词 |
+| `test/*.cjs` | 独立功能测试：自动保存状态机、Markdown 渲染器（`npm test`） |
+
+## 测试
+
+```sh
+npm test   # node test/autosave.cjs && node test/md-render.cjs
+```
+
+- `test/autosave.cjs`：从 `lib/client.js` 提取自动保存状态机段直接驱动——干净冲刷不落盘、脏冲刷恰好一次、中途编辑不被回滚、手动保存排队、失败有界重试、快照未变跳过
+- `test/md-render.cjs`：从 `lib/client.js` 提取 Markdown 渲染段，用 React 桩检查渲染树——标题/列表/任务项/引用/代码块/表格对齐、HTML 全部保持文本（无注入）、边界情况与 200KB 大文档性能
 
 ## 已知限制
 
